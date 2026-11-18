@@ -254,7 +254,23 @@
       tlBox.appendChild(li);
     });
 
-    
+    var box = document.getElementById('playerBox');
+    box.innerHTML = '';
+    var id = (D && D.playlistId ? String(D.playlistId) : '').trim();
+    if (!id) {
+      box.innerHTML = '<div class="hint">还没填歌单 ID。在 Pages CMS 里打开「主页内容」把歌单 ID 填上，保存即可。</div>';
+      return;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'player';
+    var f = document.createElement('iframe');
+    f.src = 'https://music.163.com/outchain/player?type=0&id=' + encodeURIComponent(id) + '&auto=0&height=430';
+    f.setAttribute('frameborder', '0');
+    f.setAttribute('loading', 'lazy');
+    f.title = '网易云歌单';
+    wrap.appendChild(f);
+    box.appendChild(wrap);
+  }
 
   /* 读 data.json（本地双击打开时读不到，会回落到上面的默认内容） */
   fetch('data.json', { cache: 'no-store' })
