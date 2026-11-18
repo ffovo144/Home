@@ -15,12 +15,13 @@
 
 <style>
   :root{
-    --bg:#0e1014; --card:#171a21; --text:#e8eaef; --muted:#9aa3b2;
-    --accent:#c25563; --border:#262b36;
+    /* 暖暗红 / 砖红配色（照 Venera 那套调的） */
+    --bg:#0d0909; --card:#1a1112; --text:#efe7e3; --muted:#a2948f;
+    --accent:#b1493f; --accent-soft:#f0b4ae; --border:#2b1d1d;
   }
   html[data-theme="light"]{
-    --bg:#f7f8fa; --card:#ffffff; --text:#14171c; --muted:#5d6672;
-    --accent:#a8354a; --border:#e6e8ee;
+    --bg:#f8f2ef; --card:#ffffff; --text:#1a1212; --muted:#6d5d59;
+    --accent:#a8433c; --accent-soft:#b1493f; --border:#ecdfdb;
   }
   *{box-sizing:border-box}
   body{
@@ -40,10 +41,10 @@
   .hero{display:flex; align-items:center; gap:22px; flex-wrap:wrap}
   .avatar{
     position:relative; width:96px; height:96px; border-radius:50%; flex:0 0 auto;
-    background:linear-gradient(135deg,var(--accent),#5d1e33);
+    background:linear-gradient(135deg,var(--accent),#3a1212);
     display:flex; align-items:center; justify-content:center;
     font-size:38px; font-weight:700; color:#fff; overflow:hidden;
-    box-shadow:0 8px 30px rgba(194,85,99,.28);
+    box-shadow:0 8px 30px rgba(177,73,63,.30);
   }
   .avatar img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 42%}
   h1{margin:0 0 4px; font-size:30px; letter-spacing:.3px}
@@ -80,20 +81,20 @@
   /* 最近在玩 / 在看 */
   .recent{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px}
   .item{
-    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    background:linear-gradient(180deg,var(--card),#171011); border:1px solid var(--border); border-radius:14px;
     padding:14px; transition:transform .15s,border-color .15s;
   }
   .item:hover{transform:translateY(-2px); border-color:var(--accent)}
   .cover{
     height:76px; border-radius:10px; display:flex; align-items:center; justify-content:center;
     font-size:30px; margin-bottom:10px;
-    background:linear-gradient(135deg,rgba(194,85,99,.30),rgba(93,30,51,.30));
+    background:linear-gradient(135deg,rgba(177,73,63,.26),rgba(58,18,18,.42));
   }
   .item .t{font-size:14px; font-weight:600; display:block}
   .item .s{font-size:12.5px; color:var(--muted); display:block; margin-top:2px}
   .badge{
     display:inline-block; font-size:11px; padding:1px 8px; border-radius:999px;
-    background:rgba(194,85,99,.15); color:var(--accent); margin-top:8px;
+    background:rgba(240,180,174,.13); color:var(--accent-soft); margin-top:8px;
   }
 
   /* 时间线 */
@@ -105,19 +106,10 @@
   .timeline li{position:relative; padding:0 0 22px 18px}
   .timeline li:before{
     content:""; position:absolute; left:-18px; top:9px; width:9px; height:9px;
-    border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px rgba(194,85,99,.18);
+    border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px rgba(177,73,63,.20);
   }
-  .timeline .year{font-size:12px; color:var(--accent); font-weight:600; letter-spacing:.05em}
+  .timeline .year{font-size:12px; color:var(--accent-soft); font-weight:600; letter-spacing:.05em}
   .timeline .what{font-size:14.5px; margin-top:2px}
-
-  /* 歌单播放器 */
-  .player{background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden}
-  .player iframe{display:block; width:100%; height:450px; border:0}
-  .hint{
-    padding:18px 16px; font-size:13.5px; color:var(--muted);
-    border:1px dashed var(--border); border-radius:14px;
-  }
-  .hint code{color:var(--accent); background:rgba(194,85,99,.12); padding:1px 5px; border-radius:4px}
 
   footer{margin-top:56px; padding-top:18px; border-top:1px solid var(--border); color:var(--muted); font-size:12.5px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
 
@@ -125,7 +117,6 @@
     .wrap{padding:36px 18px 48px}
     .avatar{width:78px; height:78px; font-size:32px}
     h1{font-size:25px}
-    .player iframe{height:380px}
   }
 </style>
 </head>
@@ -185,9 +176,6 @@
   <h2>时间线</h2>
   <ul class="timeline" id="timelineBox"></ul>
 
-  <h2>我的歌单</h2>
-  <div id="playerBox"></div>
-
   <footer>
     <span>© <span id="year">2026</span> 呆小方</span>
     <span>用 HTML + CSS 手写 · 无框架</span>
@@ -222,8 +210,7 @@
   /* ---------- 渲染 data.json 的内容（这里不用改） ---------- */
   var DEFAULT = {
     recent: [{ emoji: '🎮', t: '毁灭战士', s: 'Freedoom · 手柄跑图', badge: '在玩' }],
-    timeline: [{ year: '2026', what: '做了这个主页。' }],
-    playlistId: ''
+    timeline: [{ year: '2026', what: '做了这个主页。' }]
   };
 
   function render(D) {
@@ -254,22 +241,6 @@
       tlBox.appendChild(li);
     });
 
-    var box = document.getElementById('playerBox');
-    box.innerHTML = '';
-    var id = (D && D.playlistId ? String(D.playlistId) : '').trim();
-    if (!id) {
-      box.innerHTML = '<div class="hint">还没填歌单 ID。在 Pages CMS 里打开「主页内容」把歌单 ID 填上，保存即可。</div>';
-      return;
-    }
-    var wrap = document.createElement('div');
-    wrap.className = 'player';
-    var f = document.createElement('iframe');
-    f.src = 'https://music.163.com/outchain/player?type=0&id=' + encodeURIComponent(id) + '&auto=0&height=430';
-    f.setAttribute('frameborder', '0');
-    f.setAttribute('loading', 'lazy');
-    f.title = '网易云歌单';
-    wrap.appendChild(f);
-    box.appendChild(wrap);
   }
 
   /* 读 data.json（本地双击打开时读不到，会回落到上面的默认内容） */
