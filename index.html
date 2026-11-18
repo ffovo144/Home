@@ -37,7 +37,6 @@
   }
   .theme-btn:hover{color:var(--text); border-color:var(--accent)}
 
-  /* 头像区 */
   .hero{display:flex; align-items:center; gap:22px; flex-wrap:wrap}
   .avatar{
     position:relative; width:96px; height:96px; border-radius:50%; flex:0 0 auto;
@@ -66,7 +65,6 @@
     color:var(--muted); margin:44px 0 14px; font-weight:600;
   }
 
-  /* 链接卡片 */
   .links{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px}
   .link{
     display:flex; align-items:center; gap:12px; text-decoration:none;
@@ -79,7 +77,7 @@
   .link .name{display:block; font-size:14.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .link .sub{display:block; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 
-  /* ===== 最近在玩 / 在看 ===== */
+  /* 最近在玩 / 在看 */
   .recent{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px}
   .item{
     background:var(--card); border:1px solid var(--border); border-radius:14px;
@@ -98,7 +96,7 @@
     background:rgba(194,85,99,.15); color:var(--accent); margin-top:8px;
   }
 
-  /* ===== 时间线 ===== */
+  /* 时间线 */
   .timeline{list-style:none; margin:0; padding:0 0 0 18px; position:relative}
   .timeline:before{
     content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px;
@@ -112,12 +110,12 @@
   .timeline .year{font-size:12px; color:var(--accent); font-weight:600; letter-spacing:.05em}
   .timeline .what{font-size:14.5px; margin-top:2px}
 
-  /* ===== 歌单播放器 ===== */
+  /* 歌单播放器 */
   .player{background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden}
   .player iframe{display:block; width:100%; height:450px; border:0}
   .hint{
     padding:18px 16px; font-size:13.5px; color:var(--muted);
-    border:1px dashed var(--border); border-radius:14px; background:transparent;
+    border:1px dashed var(--border); border-radius:14px;
   }
   .hint code{color:var(--accent); background:rgba(194,85,99,.12); padding:1px 5px; border-radius:4px}
 
@@ -180,29 +178,15 @@
     </a>
   </div>
 
+  <!-- ===== 下面两个区块的内容都在 data.js 里改，不要动这里 ===== -->
+  <h2>最近在玩 / 在看</h2>
+  <div class="recent" id="recentBox"></div>
 
-  <!-- ========= 修改处：时间线 =========
-       每条 <li>：年份 + 一句话，从新到旧排 -->
   <h2>时间线</h2>
-  <ul class="timeline">
-    <li>
-      <div class="year">2026</div>
-      <div class="what">做了这个主页，第一次把自己的页面放上互联网。</div>
-    </li>
-    <li>
-      <div class="year">2026</div>
-      <div class="what">开始折腾 Android 上的各种应用和模拟器。</div>
-    </li>
-    <li>
-      <div class="year">2025</div>
-      <div class="what">把那台 2015 年的 MacBook Air 重新拾起来用。</div>
-    </li>
-    <li>
-      <div class="year">更早</div>
-      <div class="what">一直是个无聊的人，喜欢看漫画、打游戏。（这句可以换掉）</div>
-    </li>
-  </ul>
+  <ul class="timeline" id="timelineBox"></ul>
 
+  <h2>我的歌单</h2>
+  <div id="playerBox"></div>
 
   <footer>
     <span>© <span id="year">2026</span> 呆小方</span>
@@ -213,7 +197,7 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* 主题切换 */
+  /* ---------- 主题 ---------- */
   var root = document.documentElement, btn = document.getElementById('themeBtn');
   var saved = localStorage.getItem('theme');
   if (saved) root.setAttribute('data-theme', saved);
@@ -223,7 +207,7 @@
     localStorage.setItem('theme', next);
   });
 
-  /* 复制邮箱 */
+  /* ---------- 复制邮箱 ---------- */
   var mail = 'chenfan53@gmail.com';
   document.getElementById('mailText').textContent = mail;
   document.getElementById('copyMail').addEventListener('click', function (e) {
@@ -235,3 +219,64 @@
     }
   });
 
+  /* ---------- 渲染 data.json 的内容（这里不用改） ---------- */
+  var DEFAULT = {
+    recent: [{ emoji: '🎮', t: '毁灭战士', s: 'Freedoom · 手柄跑图', badge: '在玩' }],
+    timeline: [{ year: '2026', what: '做了这个主页。' }],
+    playlistId: ''
+  };
+
+  function render(D) {
+    var recentData = (D && D.recent && D.recent.length) ? D.recent : DEFAULT.recent;
+    var timelineData = (D && D.timeline && D.timeline.length) ? D.timeline : DEFAULT.timeline;
+
+    var recentBox = document.getElementById('recentBox');
+    recentBox.innerHTML = '';
+    recentData.forEach(function (it) {
+      var d = document.createElement('div');
+      d.className = 'item';
+      d.innerHTML = '<div class="cover"></div><span class="t"></span><span class="s"></span><span class="badge"></span>';
+      d.querySelector('.cover').textContent = it.emoji || '📌';
+      d.querySelector('.t').textContent = it.t || '';
+      d.querySelector('.s').textContent = it.s || '';
+      var b = d.querySelector('.badge');
+      if (it.badge) { b.textContent = it.badge; } else { b.remove(); }
+      recentBox.appendChild(d);
+    });
+
+    var tlBox = document.getElementById('timelineBox');
+    tlBox.innerHTML = '';
+    timelineData.forEach(function (it) {
+      var li = document.createElement('li');
+      li.innerHTML = '<div class="year"></div><div class="what"></div>';
+      li.querySelector('.year').textContent = it.year || '';
+      li.querySelector('.what').textContent = it.what || '';
+      tlBox.appendChild(li);
+    });
+
+    var box = document.getElementById('playerBox');
+    box.innerHTML = '';
+    var id = (D && D.playlistId ? String(D.playlistId) : '').trim();
+    if (!id) {
+      box.innerHTML = '<div class="hint">还没填歌单 ID。在 Pages CMS 里打开「主页内容」把歌单 ID 填上，保存即可。</div>';
+      return;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'player';
+    var f = document.createElement('iframe');
+    f.src = 'https://music.163.com/outchain/player?type=0&id=' + encodeURIComponent(id) + '&auto=0&height=430';
+    f.setAttribute('frameborder', '0');
+    f.setAttribute('loading', 'lazy');
+    f.title = '网易云歌单';
+    wrap.appendChild(f);
+    box.appendChild(wrap);
+  }
+
+  /* 读 data.json（本地双击打开时读不到，会回落到上面的默认内容） */
+  fetch('data.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { render(d); })
+    .catch(function () { render(null); });
+</script>
+</body>
+</html>
