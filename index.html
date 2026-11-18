@@ -180,41 +180,6 @@
     </a>
   </div>
 
-  <!-- ========= 修改处：最近在玩 / 在看 =========
-       一组 .item，每个三行：封面 emoji、标题 .t、备注 .s、可选标签 .badge
-       不想要的整块 <li>/<div> 删掉即可 -->
-  <h2>最近在玩 / 在看</h2>
-  <div class="recent">
-
-    <div class="item">
-      <div class="cover">🎮</div>
-      <span class="t">毁灭战士</span>
-      <span class="s">Freedoom · 手柄跑图</span>
-      <span class="badge">在玩</span>
-    </div>
-
-    <div class="item">
-      <div class="cover">📖</div>
-      <span class="t">在追的漫画</span>
-      <span class="s">用 Venera 追更</span>
-      <span class="badge">在看</span>
-    </div>
-
-    <div class="item">
-      <div class="cover">🎧</div>
-      <span class="t">日常听歌</span>
-      <span class="s">网易云 · 按心情切歌单</span>
-      <span class="badge">在听</span>
-    </div>
-
-    <div class="item">
-      <div class="cover">💻</div>
-      <span class="t">瞎折腾</span>
-      <span class="s">旧电脑、旧手机继续榨</span>
-      <span class="badge">在搞</span>
-    </div>
-
-  </div>
 
   <!-- ========= 修改处：时间线 =========
        每条 <li>：年份 + 一句话，从新到旧排 -->
@@ -238,16 +203,6 @@
     </li>
   </ul>
 
-  <!-- ========= 修改处：歌单 ID =========
-       把下面 PLAYLIST_ID 里的数字换成你自己的歌单 ID 就会自动显示播放器。
-       获取方法：网易云 → 我的 → 歌单 → 分享 → 复制链接，链接里 id=数字 的那串就是。
-       留空的话页面显示一行提示，不会出现空白框。 -->
-  <h2>我的歌单</h2>
-  <div id="playerBox">
-    <div class="hint" id="playerHint">
-      还没填歌单 ID。把 <code>index.html</code> 里 <code>var PLAYLIST_ID = ""</code> 引号中填上你的歌单 ID 就能直接在这里播放。
-    </div>
-  </div>
 
   <footer>
     <span>© <span id="year">2026</span> 呆小方</span>
@@ -280,23 +235,3 @@
     }
   });
 
-  /* ===== 歌单播放器：只改这一行 ===== */
-  var PLAYLIST_ID = '';   // ← 例：'1234567890'
-
-  (function () {
-    var box = document.getElementById('playerBox');
-    if (!PLAYLIST_ID) return;                 // 没填就保留提示文字
-    var wrap = document.createElement('div');
-    wrap.className = 'player';
-    var f = document.createElement('iframe');
-    f.src = 'https://music.163.com/outchain/player?type=0&id=' + PLAYLIST_ID + '&auto=0&height=430';
-    f.setAttribute('frameborder', '0');
-    f.setAttribute('loading', 'lazy');
-    f.title = '网易云歌单';
-    wrap.appendChild(f);
-    box.innerHTML = '';
-    box.appendChild(wrap);
-  })();
-</script>
-</body>
-</html>
