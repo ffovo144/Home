@@ -1,0 +1,37 @@
+media: media
+
+content:
+  - name: home
+    label: 主页内容
+    type: file
+    path: data.json
+    format: json
+    fields:
+      - name: recent
+        label: 最近在玩 / 在看
+        type: object
+        list: true
+        fields:
+          - name: emoji
+            label: 封面 emoji
+            type: string
+          - name: t
+            label: 标题
+            type: string
+          - name: s
+            label: 备注
+            type: string
+          - name: badge
+            label: 小标签
+            type: string
+      - name: timeline
+        label: 时间线
+        type: object
+        list: true
+        fields:
+          - name: year
+            label: 年份
+            type: string
+          - name: what
+            label: 内容
+            type: text
