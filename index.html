@@ -5,16 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>呆小方 · 个人主页</title>
 
+<!-- ========= 修改处 1：网页标题 / 分享标题 ========= -->
 <meta name="description" content="呆小方的个人主页——无聊的一个人。">
 <meta property="og:title" content="呆小方">
 <meta property="og:description" content="无聊的一个人。">
 <meta property="og:type" content="profile">
 
-<!-- 网页标签小图标：改字母或颜色即可 -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23c25563'/><text x='50' y='70' font-size='48' text-anchor='middle' fill='white' font-family='system-ui'>呆</text></svg>">
 
 <style>
-  /* 配色：想换只改这几个变量（--accent 是主题色） */
   :root{
     --bg:#0e1014; --card:#171a21; --text:#e8eaef; --muted:#9aa3b2;
     --accent:#c25563; --border:#262b36;
@@ -31,7 +30,6 @@
     transition:background .25s,color .25s;
   }
   .wrap{max-width:760px; margin:0 auto; padding:56px 22px 64px}
-
   .top{display:flex; justify-content:flex-end; margin-bottom:8px}
   .theme-btn{
     background:transparent; color:var(--muted); border:1px solid var(--border);
@@ -39,6 +37,7 @@
   }
   .theme-btn:hover{color:var(--text); border-color:var(--accent)}
 
+  /* 头像区 */
   .hero{display:flex; align-items:center; gap:22px; flex-wrap:wrap}
   .avatar{
     position:relative; width:96px; height:96px; border-radius:50%; flex:0 0 auto;
@@ -51,7 +50,7 @@
   h1{margin:0 0 4px; font-size:30px; letter-spacing:.3px}
   .tagline{margin:0; color:var(--muted); font-size:15px}
 
-  .bio{margin:26px 0 0; font-size:15.5px; color:var(--text); opacity:.92}
+  .bio{margin:26px 0 0; font-size:15.5px; opacity:.92}
   .bio p{margin:0 0 12px}
 
   .cta{
@@ -67,6 +66,7 @@
     color:var(--muted); margin:44px 0 14px; font-weight:600;
   }
 
+  /* 链接卡片 */
   .links{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px}
   .link{
     display:flex; align-items:center; gap:12px; text-decoration:none;
@@ -79,12 +79,55 @@
   .link .name{display:block; font-size:14.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .link .sub{display:block; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 
+  /* ===== 最近在玩 / 在看 ===== */
+  .recent{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px}
+  .item{
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:14px; transition:transform .15s,border-color .15s;
+  }
+  .item:hover{transform:translateY(-2px); border-color:var(--accent)}
+  .cover{
+    height:76px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:30px; margin-bottom:10px;
+    background:linear-gradient(135deg,rgba(194,85,99,.30),rgba(93,30,51,.30));
+  }
+  .item .t{font-size:14px; font-weight:600; display:block}
+  .item .s{font-size:12.5px; color:var(--muted); display:block; margin-top:2px}
+  .badge{
+    display:inline-block; font-size:11px; padding:1px 8px; border-radius:999px;
+    background:rgba(194,85,99,.15); color:var(--accent); margin-top:8px;
+  }
+
+  /* ===== 时间线 ===== */
+  .timeline{list-style:none; margin:0; padding:0 0 0 18px; position:relative}
+  .timeline:before{
+    content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(var(--accent),transparent);
+  }
+  .timeline li{position:relative; padding:0 0 22px 18px}
+  .timeline li:before{
+    content:""; position:absolute; left:-18px; top:9px; width:9px; height:9px;
+    border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px rgba(194,85,99,.18);
+  }
+  .timeline .year{font-size:12px; color:var(--accent); font-weight:600; letter-spacing:.05em}
+  .timeline .what{font-size:14.5px; margin-top:2px}
+
+  /* ===== 歌单播放器 ===== */
+  .player{background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+  .player iframe{display:block; width:100%; height:450px; border:0}
+  .hint{
+    padding:18px 16px; font-size:13.5px; color:var(--muted);
+    border:1px dashed var(--border); border-radius:14px; background:transparent;
+  }
+  .hint code{color:var(--accent); background:rgba(194,85,99,.12); padding:1px 5px; border-radius:4px}
+
   footer{margin-top:56px; padding-top:18px; border-top:1px solid var(--border); color:var(--muted); font-size:12.5px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
 
   @media (max-width:520px){
     .wrap{padding:36px 18px 48px}
     .avatar{width:78px; height:78px; font-size:32px}
     h1{font-size:25px}
+    .player iframe{height:380px}
   }
 </style>
 </head>
@@ -115,32 +158,95 @@
 
   <h2>找到我</h2>
   <div class="links">
-
     <a class="link" href="https://github.com/ffovo144" target="_blank" rel="noopener">
       <span class="ico">🐙</span>
       <span class="txt"><span class="name">GitHub</span><span class="sub">@ffovo144</span></span>
     </a>
-
     <a class="link" href="https://b23.tv/rCEptQw" target="_blank" rel="noopener">
       <span class="ico">📺</span>
       <span class="txt"><span class="name">哔哩哔哩</span><span class="sub">Is-slottet 的个人空间</span></span>
     </a>
-
     <a class="link" href="https://music.163.com/#/user/home?id=7865784012" target="_blank" rel="noopener">
       <span class="ico">🎧</span>
       <span class="txt"><span class="name">网易云音乐</span><span class="sub">我的主页</span></span>
     </a>
-
     <a class="link" href="https://t.me/ffovo17" target="_blank" rel="noopener">
       <span class="ico">💬</span>
       <span class="txt"><span class="name">Telegram</span><span class="sub">@ffovo17</span></span>
     </a>
-
     <a class="link" href="#" id="copyMail">
       <span class="ico">✉️</span>
       <span class="txt"><span class="name">复制邮箱</span><span class="sub" id="mailText">chenfan53@gmail.com</span></span>
     </a>
+  </div>
 
+  <!-- ========= 修改处：最近在玩 / 在看 =========
+       一组 .item，每个三行：封面 emoji、标题 .t、备注 .s、可选标签 .badge
+       不想要的整块 <li>/<div> 删掉即可 -->
+  <h2>最近在玩 / 在看</h2>
+  <div class="recent">
+
+    <div class="item">
+      <div class="cover">🎮</div>
+      <span class="t">毁灭战士</span>
+      <span class="s">Freedoom · 手柄跑图</span>
+      <span class="badge">在玩</span>
+    </div>
+
+    <div class="item">
+      <div class="cover">📖</div>
+      <span class="t">在追的漫画</span>
+      <span class="s">用 Venera 追更</span>
+      <span class="badge">在看</span>
+    </div>
+
+    <div class="item">
+      <div class="cover">🎧</div>
+      <span class="t">日常听歌</span>
+      <span class="s">网易云 · 按心情切歌单</span>
+      <span class="badge">在听</span>
+    </div>
+
+    <div class="item">
+      <div class="cover">💻</div>
+      <span class="t">瞎折腾</span>
+      <span class="s">旧电脑、旧手机继续榨</span>
+      <span class="badge">在搞</span>
+    </div>
+
+  </div>
+
+  <!-- ========= 修改处：时间线 =========
+       每条 <li>：年份 + 一句话，从新到旧排 -->
+  <h2>时间线</h2>
+  <ul class="timeline">
+    <li>
+      <div class="year">2026</div>
+      <div class="what">做了这个主页，第一次把自己的页面放上互联网。</div>
+    </li>
+    <li>
+      <div class="year">2026</div>
+      <div class="what">开始折腾 Android 上的各种应用和模拟器。</div>
+    </li>
+    <li>
+      <div class="year">2025</div>
+      <div class="what">把那台 2015 年的 MacBook Air 重新拾起来用。</div>
+    </li>
+    <li>
+      <div class="year">更早</div>
+      <div class="what">一直是个无聊的人，喜欢看漫画、打游戏。（这句可以换掉）</div>
+    </li>
+  </ul>
+
+  <!-- ========= 修改处：歌单 ID =========
+       把下面 PLAYLIST_ID 里的数字换成你自己的歌单 ID 就会自动显示播放器。
+       获取方法：网易云 → 我的 → 歌单 → 分享 → 复制链接，链接里 id=数字 的那串就是。
+       留空的话页面显示一行提示，不会出现空白框。 -->
+  <h2>我的歌单</h2>
+  <div id="playerBox">
+    <div class="hint" id="playerHint">
+      还没填歌单 ID。把 <code>index.html</code> 里 <code>var PLAYLIST_ID = ""</code> 引号中填上你的歌单 ID 就能直接在这里播放。
+    </div>
   </div>
 
   <footer>
@@ -152,6 +258,7 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  /* 主题切换 */
   var root = document.documentElement, btn = document.getElementById('themeBtn');
   var saved = localStorage.getItem('theme');
   if (saved) root.setAttribute('data-theme', saved);
@@ -161,6 +268,7 @@
     localStorage.setItem('theme', next);
   });
 
+  /* 复制邮箱 */
   var mail = 'chenfan53@gmail.com';
   document.getElementById('mailText').textContent = mail;
   document.getElementById('copyMail').addEventListener('click', function (e) {
@@ -171,6 +279,24 @@
       alert(mail);
     }
   });
+
+  /* ===== 歌单播放器：只改这一行 ===== */
+  var PLAYLIST_ID = '';   // ← 例：'1234567890'
+
+  (function () {
+    var box = document.getElementById('playerBox');
+    if (!PLAYLIST_ID) return;                 // 没填就保留提示文字
+    var wrap = document.createElement('div');
+    wrap.className = 'player';
+    var f = document.createElement('iframe');
+    f.src = 'https://music.163.com/outchain/player?type=0&id=' + PLAYLIST_ID + '&auto=0&height=430';
+    f.setAttribute('frameborder', '0');
+    f.setAttribute('loading', 'lazy');
+    f.title = '网易云歌单';
+    wrap.appendChild(f);
+    box.innerHTML = '';
+    box.appendChild(wrap);
+  })();
 </script>
 </body>
 </html>
