@@ -3,25 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>你的名字 · 个人主页</title>
+<title>呆小方 · 个人主页</title>
 
-<!-- ========= 修改处 1：把下面的名字/介绍/链接换成你自己的 ========= -->
-<meta name="description" content="呆小方的个人主页">
+<meta name="description" content="呆小方的个人主页——无聊的一个人。">
 <meta property="og:title" content="呆小方">
-<meta property="og:description" content="呆小方的个人主页">
+<meta property="og:description" content="无聊的一个人。">
+<meta property="og:type" content="profile">
 
-<!-- 网页标签上的小图标，改掉这行可以换成自己的图片文件 -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23666cf0'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='system-ui'>Y</text></svg>">
+<!-- 网页标签小图标：改字母或颜色即可 -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23c25563'/><text x='50' y='70' font-size='48' text-anchor='middle' fill='white' font-family='system-ui'>呆</text></svg>">
 
 <style>
-  /* 主题色：想换配色只改这三个变量 */
+  /* 配色：想换只改这几个变量（--accent 是主题色） */
   :root{
     --bg:#0e1014; --card:#171a21; --text:#e8eaef; --muted:#9aa3b2;
-    --accent:#6f6cf3; --border:#262b36;
+    --accent:#c25563; --border:#262b36;
   }
   html[data-theme="light"]{
     --bg:#f7f8fa; --card:#ffffff; --text:#14171c; --muted:#5d6672;
-    --accent:#4f46e5; --border:#e6e8ee;
+    --accent:#a8354a; --border:#e6e8ee;
   }
   *{box-sizing:border-box}
   body{
@@ -32,7 +32,6 @@
   }
   .wrap{max-width:760px; margin:0 auto; padding:56px 22px 64px}
 
-  /* 顶栏 */
   .top{display:flex; justify-content:flex-end; margin-bottom:8px}
   .theme-btn{
     background:transparent; color:var(--muted); border:1px solid var(--border);
@@ -40,25 +39,21 @@
   }
   .theme-btn:hover{color:var(--text); border-color:var(--accent)}
 
-  /* 头像 + 名字 */
   .hero{display:flex; align-items:center; gap:22px; flex-wrap:wrap}
   .avatar{
     position:relative; width:96px; height:96px; border-radius:50%; flex:0 0 auto;
-    background:linear-gradient(135deg,var(--accent),#3ec6c0);
+    background:linear-gradient(135deg,var(--accent),#5d1e33);
     display:flex; align-items:center; justify-content:center;
-    font-size:40px; font-weight:700; color:#fff; overflow:hidden;
-    box-shadow:0 8px 30px rgba(111,108,243,.25);
+    font-size:38px; font-weight:700; color:#fff; overflow:hidden;
+    box-shadow:0 8px 30px rgba(194,85,99,.28);
   }
-  /* 有头像图片时它会盖住上面的字母；没有图片自动回落到字母 */
-  .avatar img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+  .avatar img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 42%}
   h1{margin:0 0 4px; font-size:30px; letter-spacing:.3px}
   .tagline{margin:0; color:var(--muted); font-size:15px}
 
-  /* 简介 */
   .bio{margin:26px 0 0; font-size:15.5px; color:var(--text); opacity:.92}
-  .bio p{margin:0 0 10px}
+  .bio p{margin:0 0 12px}
 
-  /* 主按钮 */
   .cta{
     display:inline-flex; align-items:center; gap:8px; margin-top:18px;
     background:var(--accent); color:#fff; text-decoration:none;
@@ -72,7 +67,6 @@
     color:var(--muted); margin:44px 0 14px; font-weight:600;
   }
 
-  /* 链接卡片 */
   .links{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px}
   .link{
     display:flex; align-items:center; gap:12px; text-decoration:none;
@@ -101,31 +95,24 @@
     <button class="theme-btn" id="themeBtn" type="button">切换主题</button>
   </div>
 
-  <!-- ========= 修改处 2：头像、名字、一句话介绍 ========= -->
   <div class="hero">
     <div class="avatar">
-      Y<!-- 没有头像图片时显示这个字母，改成你名字的首字母 -->
-      <img src="avatar.jpg" alt="头像" onerror="this.remove()">
+      呆
+      <img src="avatar.jpg" alt="呆小方">
     </div>
     <div>
       <h1>呆小方</h1>
-      <p class="tagline">测试test方方</p>
+      <p class="tagline">无聊的一个人</p>
     </div>
   </div>
 
-  <!-- ========= 修改处 3：简介段落，一行一段 ========= -->
   <div class="bio">
-    <p>你好，我是「呆小方」。这里是放我常用链接的地方。</p>
-    <p>平时喜欢折腾各种软件和旧设备，偶尔写点东西。</p>
+    <p>名字叫呆小方，一个无聊的人。日常基本就是打游戏、刷视频、听歌，偶尔把喜欢的漫画一口气看完，然后忘记自己本来要干什么。</p>
+    <p>没什么拿得出手的特长，就是爱折腾：手机里塞满奇奇怪怪的应用，旧电脑也舍不得扔，还要继续让它干活。这里放着我常出没的地方，想找我就点下面的链接。</p>
   </div>
 
-  <!-- ========= 修改处 4：邮箱按钮（改 mailto 后面的地址） ========= -->
-  <a class="cta" href="mailto:chenfan53@amail.com">✉️ 给我发邮件</a>
+  <a class="cta" href="mailto:chenfan53@gmail.com">✉️ 给我发邮件</a>
 
-  <!-- ========= 修改处 5：链接卡片 =========
-       每个 .link 一个卡片：
-       href 换成你的链接，emoji 换图标，.name 是大字，.sub 是下面的小字
-       不需要的整段删掉即可 -->
   <h2>找到我</h2>
   <div class="links">
 
@@ -136,23 +123,17 @@
 
     <a class="link" href="https://b23.tv/rCEptQw" target="_blank" rel="noopener">
       <span class="ico">📺</span>
-      <span class="txt"><span class="name">哔哩哔哩</span><span class="sub">看视频 / 投稿</span></span>
+      <span class="txt"><span class="name">哔哩哔哩</span><span class="sub">Is-slottet 的个人空间</span></span>
     </a>
 
-    <a class="link" href="https://music.163.com/#/user/home?id=7865784012
-" target="_blank" rel="noopener">
+    <a class="link" href="https://music.163.com/#/user/home?id=7865784012" target="_blank" rel="noopener">
       <span class="ico">🎧</span>
-      <span class="txt"><span class="name">网易云音乐</span><span class="sub">歌单</span></span>
+      <span class="txt"><span class="name">网易云音乐</span><span class="sub">我的主页</span></span>
     </a>
 
-    <a class="link" href="https://store.steampowered.com/" target="_blank" rel="noopener">
-      <span class="ico">🎮</span>
-      <span class="txt"><span class="name">Steam</span><span class="sub">130234 / 在玩</span></span>
-    </a>
-
-    <a class="link" href="https://t.me/" target="_blank" rel="noopener">
+    <a class="link" href="https://t.me/ffovo17" target="_blank" rel="noopener">
       <span class="ico">💬</span>
-      <span class="txt"><span class="name">Telegram</span><span class="sub">@用户名</span></span>
+      <span class="txt"><span class="name">Telegram</span><span class="sub">@ffovo17</span></span>
     </a>
 
     <a class="link" href="#" id="copyMail">
@@ -164,15 +145,13 @@
 
   <footer>
     <span>© <span id="year">2026</span> 呆小方</span>
-    <span></span>
+    <span>用 HTML + CSS 手写 · 无框架</span>
   </footer>
 </div>
 
 <script>
-  // 年份自动更新
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // 主题切换（记住选择）
   var root = document.documentElement, btn = document.getElementById('themeBtn');
   var saved = localStorage.getItem('theme');
   if (saved) root.setAttribute('data-theme', saved);
@@ -182,8 +161,7 @@
     localStorage.setItem('theme', next);
   });
 
-  // 点“复制邮箱”
-  var mail = 'chenfan53@gmail.com'; // ← 和上面 mailto 保持一致
+  var mail = 'chenfan53@gmail.com';
   document.getElementById('mailText').textContent = mail;
   document.getElementById('copyMail').addEventListener('click', function (e) {
     e.preventDefault();
